@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6th Grade English Annual Exam Review</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #e0e7ff;
+      --success: #16a34a;
+      --success-light: #dcfce7;
+      --error: #dc2626;
+      --error-light: #fee2e2;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 5rem;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4338ca, #6366f1);
+      color: white;
+      padding: 2.5rem 1rem 3.5rem;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .sticky-tracker {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    .tracker-content {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .progress-bar-bg {
+      flex: 1;
+      height: 12px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .score-badge {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    main {
+      max-width: 800px;
+      margin: -1.5rem auto 0;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-header {
+      background: #f1f5f9;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-header h2 {
+      font-size: 1.2rem;
+      color: #334155;
+    }
+
+    .section-body {
+      padding: 1.25rem;
+    }
+
+    .rule-box {
+      background: #faf5ff;
+      border-left: 4px solid #a855f7;
+      padding: 0.75rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1.25rem;
+      font-size: 0.95rem;
+      color: #581c87;
+    }
+
+    .reading-passage {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #334155;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .activity-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .item-prompt {
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .item-prompt span.num {
+      color: var(--primary);
+    }
+
+    /* Option Pills */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .pill-btn {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    .pill-btn.correct {
+      background-color: var(--success) !important;
+      color: white !important;
+      border-color: var(--success) !important;
+    }
+
+    .pill-btn.wrong {
+      background-color: var(--error) !important;
+      color: white !important;
+      border-color: var(--error) !important;
+    }
+
+    .pill-btn:disabled {
+      cursor: default;
+      opacity: 0.85;
+    }
+
+    /* Feedback text */
+    .feedback-msg {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .feedback-msg.show {
+      display: block;
+    }
+
+    .feedback-msg.correct {
+      color: var(--success);
+    }
+
+    .feedback-msg.wrong {
+      color: var(--error);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.6rem; }
+      .section-body { padding: 1rem; }
+      .pill-btn { font-size: 0.9rem; padding: 0.4rem 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>English Exam Interactive Review</h1>
+    <p>6th Grade Study Guide &bull; Complete the activities to practice!</p>
+  </header>
+
+  <div class="sticky-tracker">
+    <div class="tracker-content">
+      <div class="progress-bar-bg">
+        <div id="progressFill" class="progress-bar-fill"></div>
+      </div>
+      <div id="scoreBadge" class="score-badge">0 / 23 Solved</div>
+    </div>
+  </div>
+
+  <main id="activitiesContainer"></main>
+
+  <script>
+    const examData = [
+      {
+        section: "1. Simple Present",
+        rule: "Routines, habits, and facts. Use base verb for I/You/We/They; add -s/-es/-ies for He/She/It. After don't/doesn't/do/does, use the base verb.",
+        questions: [
+          {
+            prompt: "He ______ soccer every Saturday.",
+            options: ["play", "plays", "playing"],
+            answer: 1,
+            explanation: "With 'He', we add -s in the Simple Present."
+          },
+          {
+            prompt: "She ______ TV at night.",
+            options: ["watches", "watch", "watchs"],
+            answer: 0,
+            explanation: "Verbs ending in -ch add -es with She/He/It."
+          },
+          {
+            prompt: "She ______ play tennis.",
+            options: ["don't", "doesn't", "isn't"],
+            answer: 1,
+            explanation: "We use 'doesn't' for negative sentences with She/He/It."
+          },
+          {
+            prompt: "______ you play soccer?",
+            options: ["Does", "Are", "Do"],
+            answer: 2,
+            explanation: "Questions with 'you' in Simple Present start with 'Do'."
+          }
+        ]
+      },
+      {
+        section: "2. In / On (Location)",
+        rule: "IN = inside an enclosed space. ON = on a surface.",
+        questions: [
+          {
+            prompt: "The books are ______ the backpack.",
+            options: ["in", "on"],
+            answer: 0,
+            explanation: "A backpack is an enclosed space (inside)."
+          },
+          {
+            prompt: "The phone is ______ the table.",
+            options: ["in", "on"],
+            answer: 1,
+            explanation: "A table is a surface."
+          },
+          {
+            prompt: "The picture is ______ the wall.",
+            options: ["in", "on"],
+            answer: 1,
+            explanation: "The picture hangs on the surface of the wall."
+          }
+        ]
+      },
+      {
+        section: "3. Present Progressive",
+        rule: "Actions happening now. Form: AM / IS / ARE + VERB-ING.",
+        questions: [
+          {
+            prompt: "She ______ a book right now.",
+            options: ["is reading", "are reading", "reads"],
+            answer: 0,
+            explanation: "Subject 'She' takes 'is' + verb-ing."
+          },
+          {
+            prompt: "They ______ watching TV at the moment.",
+            options: ["isn't", "aren't", "don't"],
+            answer: 1,
+            explanation: "Subject 'They' takes 'aren't' for negative Present Progressive."
+          },
+          {
+            prompt: "Spelling check: swim &rarr; ______",
+            options: ["swiming", "swimming", "swimes"],
+            answer: 1,
+            explanation: "Short CVC verb: double the final consonant before -ing."
+          }
+        ]
+      },
+      {
+        section: "4. Modal Verbs",
+        rule: "Can (ability/permission), Must (obligation), Mustn't (prohibition), Should (advice). Always follow with a base verb without 'to' or '-s'.",
+        questions: [
+          {
+            prompt: "She can ______ soccer very well.",
+            options: ["plays", "play", "to play"],
+            answer: 1,
+            explanation: "After modal verbs like 'can', use the base verb (no -s, no to)."
+          },
+          {
+            prompt: "You ______ use your phone during the test. (Prohibition)",
+            options: ["should", "mustn't", "can"],
+            answer: 1,
+            explanation: "'Mustn't' indicates prohibition."
+          },
+          {
+            prompt: "You look tired. You ______ study for the exam and sleep early.",
+            options: ["should", "mustn't", "can't"],
+            answer: 0,
+            explanation: "'Should' is used to offer good advice."
+          }
+        ]
+      },
+      {
+        section: "5. Simple Past",
+        rule: "Finished actions in the past. Regular verbs add -ed. Negatives use didn't + base verb. Questions use Did + subject + base verb.",
+        questions: [
+          {
+            prompt: "We ______ pizza last night.",
+            options: ["eat", "ate", "eaten"],
+            answer: 1,
+            explanation: "'Ate' is the simple past form of 'eat'."
+          },
+          {
+            prompt: "They ______ to the park on Sunday.",
+            options: ["went", "go", "gone"],
+            answer: 0,
+            explanation: "'Went' is the simple past form of 'go'."
+          },
+          {
+            prompt: "She didn't ______ to school last Monday.",
+            options: ["went", "go", "goes"],
+            answer: 1,
+            explanation: "After 'didn't', always return to the base verb ('go')."
+          }
+        ]
+      },
+      {
+        section: "6. Comparatives",
+        rule: "Comparing 2 things. Short adjectives add -er than. Long adjectives use more + adj + than. Irregulars: good &rarr; better than, bad &rarr; worse than.",
+        questions: [
+          {
+            prompt: "A car is ______ a bicycle.",
+            options: ["fast than", "faster than", "more fast than"],
+            answer: 1,
+            explanation: "'Fast' is a short adjective: add -er + than."
+          },
+          {
+            prompt: "A computer is ______ a book.",
+            options: ["more expensive than", "expensiver than", "most expensive than"],
+            answer: 0,
+            explanation: "'Expensive' is a long adjective: use 'more ... than'."
+          },
+          {
+            prompt: "The weather today is ______ yesterday.",
+            options: ["badder than", "more bad than", "worse than"],
+            answer: 2,
+            explanation: "'Bad' is irregular; its comparative form is 'worse than'."
+          }
+        ]
+      },
+      {
+        section: "7. Superlatives",
+        rule: "Comparing 3 or more things. Use the + -est for short adjectives; the most + adj for long adjectives. Irregulars: the best, the worst.",
+        questions: [
+          {
+            prompt: "The cheetah is ______ land animal in the world.",
+            options: ["the fastest", "faster than", "the most fast"],
+            answer: 0,
+            explanation: "Superlative of short adjective 'fast' is 'the fastest'."
+          },
+          {
+            prompt: "This is ______ game on my phone.",
+            options: ["the goodest", "the best", "better than"],
+            answer: 1,
+            explanation: "'Good' irregular superlative is 'the best'."
+          }
+        ]
+      },
+      {
+        section: "8. Will & Going To",
+        rule: "WILL = decisions now / predictions / promises. GOING TO = plans / intentions / predictions with visual evidence.",
+        questions: [
+          {
+            prompt: "Look at those dark clouds! It ______ rain.",
+            options: ["will", "is going to"],
+            answer: 1,
+            explanation: "Dark clouds are physical evidence, so we use 'is going to'."
+          },
+          {
+            prompt: "I'm thirsty. I think I ______ drink some water.",
+            options: ["will", "am going to"],
+            answer: 0,
+            explanation: "Decision made at the moment of speaking uses 'will'."
+          }
+        ]
+      },
+      {
+        section: "9. Present Perfect (For / Since)",
+        rule: "Have/Has + Past Participle. FOR = period of time. SINCE = starting point.",
+        questions: [
+          {
+            prompt: "I have studied English ______ three years.",
+            options: ["for", "since"],
+            answer: 0,
+            explanation: "'Three years' is a duration/period of time, so use 'for'."
+          },
+          {
+            prompt: "She has lived here ______ 2023.",
+            options: ["for", "since"],
+            answer: 1,
+            explanation: "'2023' is a specific starting point in time, so use 'since'."
+          }
+        ]
+      },
+      {
+        section: "10. Text Comprehension",
+        rule: "Read the story and identify the key question words (Who, When, Where, Why, How).",
+        passage: "Lucas visited his grandmother last Sunday. He went to her house by bus because his father was working. They cooked lunch together.",
+        questions: [
+          {
+            prompt: "How did Lucas travel to his grandmother's house?",
+            options: ["By car", "By bus", "On foot"],
+            answer: 1,
+            explanation: "The passage states: 'He went to her house by bus'."
+          }
+        ]
+      }
+    ];
+
+    let totalQuestions = 0;
+    let answeredCorrectly = 0;
+
+    function renderExam() {
+      const container = document.getElementById("activitiesContainer");
+      let qGlobalIndex = 1;
+
+      examData.forEach((sec, sIdx) => {
+        const card = document.createElement("section");
+        card.className = "section-card";
+
+        let html = `
+          <div class="section-header">
+            <h2>${sec.section}</h2>
+          </div>
+          <div class="section-body">
+            <div class="rule-box">${sec.rule}</div>
+            ${sec.passage ? `<div class="reading-passage">"${sec.passage}"</div>` : ""}
+        `;
+
+        sec.questions.forEach((q, qIdx) => {
+          totalQuestions++;
+          const qId = `q_${sIdx}_${qIdx}`;
+          html += `
+            <div class="activity-item" id="item_${qId}">
+              <div class="item-prompt">
+                <span class="num">${qGlobalIndex}.</span>
+                <span>${q.prompt}</span>
+              </div>
+              <div class="pill-group" id="pills_${qId}">
+                ${q.options.map((opt, oIdx) => `
+                  <button class="pill-btn" onclick="checkChoice('${qId}', ${sIdx}, ${qIdx}, ${oIdx})">${opt}</button>
+                `).join("")}
+              </div>
+              <div class="feedback-msg" id="fb_${qId}"></div>
+            </div>
+          `;
+          qGlobalIndex++;
+        });
+
+        html += `</div>`;
+        card.innerHTML = html;
+        container.appendChild(card);
+      });
+
+      updateScoreUI();
+    }
+
+    function checkChoice(qId, sIdx, qIdx, selectedIdx) {
+      const qData = examData[sIdx].questions[qIdx];
+      const pillContainer = document.getElementById(`pills_${qId}`);
+      const buttons = pillContainer.querySelectorAll(".pill-btn");
+      const fb = document.getElementById(`fb_${qId}`);
+
+      // Disable buttons to lock choice
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (selectedIdx === qData.answer) {
+        buttons[selectedIdx].classList.add("correct");
+        fb.className = "feedback-msg show correct";
+        fb.textContent = `✓ Correct! ${qData.explanation}`;
+        answeredCorrectly++;
+      } else {
+        buttons[selectedIdx].classList.add("wrong");
+        buttons[qData.answer].classList.add("correct");
+        fb.className = "feedback-msg show wrong";
+        fb.textContent = `✗ Not quite. ${qData.explanation}`;
+      }
+
+      updateScoreUI();
+    }
+
+    function updateScoreUI() {
+      const fill = document.getElementById("progressFill");
+      const badge = document.getElementById("scoreBadge");
+      const pct = Math.round((answeredCorrectly / totalQuestions) * 100);
+
+      fill.style.width = `${pct}%`;
+      badge.textContent = `${answeredCorrectly} / ${totalQuestions} Solved`;
+    }
+
+    document.addEventListener("DOMContentLoaded", renderExam);
+  </script>
+</body>
+</html>
